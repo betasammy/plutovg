@@ -14,22 +14,24 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ./build/examples/smiley.exe
+          cd build/examples/
+          ./smiley.exe
 
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-windows-meson
-          path: ./build/examples/smiley.exe
+          path: ./build/examples/*
           
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
-          ./examples/Debug/smiley.exe
+          cd examples/Debug/
+          ./smiley.exe
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-windows-cmake
-          path: ./examples/Debug/smiley.exe
+          path: ./examples/Debug/*
           
   linux:
     runs-on: ubuntu-latest
@@ -43,21 +45,23 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ./build/examples/smiley
+          cd build/examples/
+          ./smiley
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-linux-meson
-          path: ./build/examples/smiley
+          path: ./build/examples/*
 
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
-          ./build/examples/smiley
+          cd build/examples/
+          ./smiley
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-linux-cmake
-          path: ./build/examples/smiley
+          path: ./build/examples/*
           
   macos:
     runs-on: macos-latest
@@ -71,19 +75,21 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ./build/examples/smiley
+          cd build/examples/
+          ./smiley
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-macos-meson
-          path: ./build/examples/smiley
+          path: ./build/examples/*
 
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
-          ./build/examples/smiley
+          cd build/examples/
+          ./smiley
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-macos-cmake
-          path: ./build/examples/smiley
+          path: ./build/examples/*
           
