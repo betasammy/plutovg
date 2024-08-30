@@ -7,10 +7,10 @@
 static inline int clz(unsigned int x) {
     unsigned long r = 0;
     if (_BitScanReverse(&r, x))
-        return 31 - r;
-    return 32;
+        return r;
+    return 0;
 }
-#define PVG_FT_MSB(x)  (31 - clz(x))
+#define PVG_FT_MSB(x)  (clz(x))
 #elif defined(__GNUC__)
 #define PVG_FT_MSB(x)  (31 - __builtin_clz(x))
 #else
@@ -31,6 +31,22 @@ static inline int clz(unsigned int x) {
 
 int main(void)
 {
+#if defined(_WIN32)
+    printf("_WIN32\n");
+#endif
+#if defined(_MSC_VER)
+    printf("_MSC_VER\n");
+#endif
+#if defined(__APPLE__)
+    printf("__APPLE__\n");
+#endif
+#if defined(__clang__)
+    printf("__clang__\n");
+#endif
+#if defined(__GNUC__)
+    printf("__GNUC__\n");
+#endif
+    
     printf("%d\n", PVG_FT_MSB(0));
     printf("%d\n", PVG_FT_MSB(10));
     printf("%d\n", PVG_FT_MSB(100));
