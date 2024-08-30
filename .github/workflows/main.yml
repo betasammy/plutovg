@@ -14,8 +14,13 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ./build/examples/smiley.exe
+#          ./build/examples/smiley.exe
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: svg2png-windows
+          path: ./build/examples/smiley.exe
+          
       - name: Build with cmake
         run: |
           cmake .
