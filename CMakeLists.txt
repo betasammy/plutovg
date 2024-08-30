@@ -6,7 +6,7 @@ set(PLUTOVG_VERSION_MICRO 1)
 
 project(plutovg LANGUAGES C VERSION ${PLUTOVG_VERSION_MAJOR}.${PLUTOVG_VERSION_MINOR}.${PLUTOVG_VERSION_MICRO})
 
-option(BUILD_SHARED_LIBS "Build examples" ON)
+option(BUILD_SHARED_LIBS "Build examples" OFF)
 
 set(plutovg_sources
     source/plutovg-blend.c
