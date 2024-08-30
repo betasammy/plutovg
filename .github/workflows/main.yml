@@ -14,7 +14,7 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ls build/examples
+          ./build/examples/smiley.exe
 
       - name: Build with cmake
         run: |
