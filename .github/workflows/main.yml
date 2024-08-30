@@ -15,8 +15,7 @@ jobs:
           meson setup build
           meson compile -C build
           pwd
-          ls .
-          ls ./build
+          ls ./build/examples
 
       - name: Build with cmake
         run: |
@@ -37,8 +36,7 @@ jobs:
           meson setup build
           meson compile -C build
           pwd
-          ls .
-          ls ./build
+          ls ./build/examples
 
       - name: Build with cmake
         run: |
@@ -59,8 +57,7 @@ jobs:
           meson setup build
           meson compile -C build
           pwd
-          ls .
-          ls ./build
+          ls ./build/examples
 
       - name: Build with cmake
         run: |
