@@ -14,6 +14,7 @@ jobs:
           
           meson setup build
           meson compile -C build
+          ./build/examples/smiley.exe
 
       - name: Build with cmake
         run: |
@@ -33,11 +34,13 @@ jobs:
           
           meson setup build
           meson compile -C build
+          ./build/examples/smiley.exe
 
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
+          ./examples/smiley.exe
           
   macos:
     runs-on: macos-latest
@@ -51,9 +54,11 @@ jobs:
           
           meson setup build
           meson compile -C build
+          ./build/examples/smiley.exe
 
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
+          ./examples/smiley.exe
           
