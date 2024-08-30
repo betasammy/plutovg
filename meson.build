@@ -32,7 +32,6 @@ plutovg_lib = library('plutovg', plutovg_sources,
     version: meson.project_version(),
     c_args: ['-DPLUTOVG_BUILD'] + plutovg_compile_args,
     cpp_args: ['-DPLUTOVG_BUILD'] + plutovg_compile_args,
-    link_args: ['-lm'],
     gnu_symbol_visibility: 'hidden',
     install: true
 )
