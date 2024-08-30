@@ -1,7 +1,41 @@
 #include <plutovg.h>
 
+#include <stdio.h>
+
+#if defined(_MSC_VER)
+#include <intrin.h>
+static inline int clz(unsigned int x) {
+    unsigned long r = 0;
+    if (_BitScanReverse(&r, x))
+        return 31 - r;
+    return 32;
+}
+#define PVG_FT_MSB(x)  (31 - clz(x))
+#elif defined(__GNUC__)
+#define PVG_FT_MSB(x)  (31 - __builtin_clz(x))
+#else
+static inline int clz(unsigned int x) {
+    for (int i = 31; i >= 0; i--)
+    {
+        if (x >> i)
+        {
+            return 31 - i;
+        }
+    }
+
+    return 32;
+}
+#define PVG_FT_MSB(x)  (31 - clz(x))
+#endif
+
+
 int main(void)
 {
+    printf("%d\n", PVG_FT_MSB(0));
+    printf("%d\n", PVG_FT_MSB(10));
+    printf("%d\n", PVG_FT_MSB(100));
+    printf("%d\n", PVG_FT_MSB(1000));
+    
     const int width = 150;
     const int height = 150;
 
