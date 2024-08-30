@@ -50,6 +50,7 @@ int main(void)
     printf("%d\n", PVG_FT_MSB(10));
     printf("%d\n", PVG_FT_MSB(100));
     printf("%d\n", PVG_FT_MSB(1000));
+    return 0;
     
     const int width = 150;
     const int height = 150;
