@@ -14,8 +14,7 @@ jobs:
           
           meson setup build
           meson compile -C build
-          pwd
-          ls ./build/examples
+          ./build/examples/smiley.exe
 
       - name: Build with cmake
         run: |
@@ -35,14 +34,13 @@ jobs:
           
           meson setup build
           meson compile -C build
-          pwd
-          ls ./build/examples
+          ./build/examples/smiley
 
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
-          ./examples/smiley.exe
+          ./build/examples/smiley
           
   macos:
     runs-on: macos-latest
@@ -56,12 +54,11 @@ jobs:
           
           meson setup build
           meson compile -C build
-          pwd
-          ls ./build/examples
+          ../build/examples/smiley
 
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
-          ./examples/smiley.exe
+          ./build/examples/smiley
           
