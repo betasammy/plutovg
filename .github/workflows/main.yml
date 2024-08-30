@@ -14,12 +14,12 @@ jobs:
           
           meson setup build
           meson compile -C build
-          #./build/examples/smiley.exe
+          ./build/examples/smiley.exe
 
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-windows-meson
-          path: ./build/examples/*
+          path: ./build/examples/smiley.exe
           
       - name: Build with cmake
         run: |
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-windows-cmake
-          path: ./examples/Debug/*
+          path: ./examples/Debug/smiley.exe
           
   linux:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-linux-meson
-          path: ./build/examples/*
+          path: ./build/examples/smiley
 
       - name: Build with cmake
         run: |
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-linux-cmake
-          path: ./build/examples/*
+          path: ./build/examples/smiley
           
   macos:
     runs-on: macos-latest
@@ -75,7 +75,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-macos-meson
-          path: ./build/examples/*
+          path: ./build/examples/smiley
 
       - name: Build with cmake
         run: |
@@ -85,5 +85,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: smiley-macos-cmake
-          path: ./build/examples/*
+          path: ./build/examples/smiley
           
