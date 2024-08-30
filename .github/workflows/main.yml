@@ -14,7 +14,7 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ls build
+          ls build/examples
 
       - name: Build with cmake
         run: |
@@ -54,11 +54,10 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ls build/examples
+          ./build/examples/smiley
 
       - name: Build with cmake
         run: |
           cmake .
           cmake --build .
-          ls build/examples
           ./build/examples/smiley
