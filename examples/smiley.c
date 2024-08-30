@@ -50,12 +50,15 @@ int main(void)
     printf("%d\n", PVG_FT_MSB(10));
     printf("%d\n", PVG_FT_MSB(100));
     printf("%d\n", PVG_FT_MSB(1000));
-    
+
+    plutovg_color_t color;
+    plutovg_color_init_rgba(&color, 1, 1, 1, 1);
+    return 0;
+
     const int width = 150;
     const int height = 150;
 
     plutovg_surface_t* surface = plutovg_surface_create(width, height);
-    return 0;
     plutovg_canvas_t* canvas = plutovg_canvas_create(surface);
     return 0;
 
