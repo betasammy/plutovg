@@ -55,3 +55,5 @@ jobs:
         run: |
           cmake .
           cmake --build .
+          ./examples/svg2png.exe
+          
