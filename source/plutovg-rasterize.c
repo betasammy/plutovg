@@ -49,10 +49,10 @@ void plutovg_span_buffer_copy(plutovg_span_buffer_t* span_buffer, const plutovg_
 {
     plutovg_array_clear(span_buffer->spans);
     plutovg_array_append(span_buffer->spans, source->spans);
-    span_buffer->x = (float)(source->x);
-    span_buffer->y = (float)(source->y);
-    span_buffer->w = (float)(source->w);
-    span_buffer->h = (float)(source->h);
+    span_buffer->x = source->x;
+    span_buffer->y = source->y;
+    span_buffer->w = source->w;
+    span_buffer->h = source->h;
 }
 
 static void plutovg_span_buffer_update_extents(plutovg_span_buffer_t* span_buffer)
@@ -86,10 +86,10 @@ static void plutovg_span_buffer_update_extents(plutovg_span_buffer_t* span_buffe
 void plutovg_span_buffer_extents(plutovg_span_buffer_t* span_buffer, plutovg_rect_t* extents)
 {
     plutovg_span_buffer_update_extents(span_buffer);
-    extents->x = span_buffer->x;
-    extents->y = span_buffer->y;
-    extents->w = span_buffer->w;
-    extents->h = span_buffer->h;
+    extents->x = (float)(span_buffer->x);
+    extents->y = (float)(span_buffer->y);
+    extents->w = (float)(span_buffer->w);
+    extents->h = (float)(span_buffer->h);
 }
 
 void plutovg_span_buffer_intersect(plutovg_span_buffer_t* span_buffer, const plutovg_span_buffer_t* a, const plutovg_span_buffer_t* b)
