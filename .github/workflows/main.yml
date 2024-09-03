@@ -5,6 +5,10 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+        with:
+          arch: 'x86'
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Build with meson
