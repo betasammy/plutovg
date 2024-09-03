@@ -49,10 +49,10 @@ void plutovg_span_buffer_copy(plutovg_span_buffer_t* span_buffer, const plutovg_
 {
     plutovg_array_clear(span_buffer->spans);
     plutovg_array_append(span_buffer->spans, source->spans);
-    span_buffer->x = source->x;
-    span_buffer->y = source->y;
-    span_buffer->w = source->w;
-    span_buffer->h = source->h;
+    span_buffer->x = (float)(source->x);
+    span_buffer->y = (float)(source->y);
+    span_buffer->w = (float)(source->w);
+    span_buffer->h = (float)(source->h);
 }
 
 static void plutovg_span_buffer_update_extents(plutovg_span_buffer_t* span_buffer)
