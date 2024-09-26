@@ -45,6 +45,25 @@ int main(void)
 #if defined(__GNUC__)
     printf("__GNUC__\n");
 #endif
+    char buffer[256];
+    FILE *fp;
+
+    // Open a pipe to run fc-list and read its output
+    fp = popen("fc-list", "r");
+    if (fp == NULL) {
+        perror("popen failed");
+        return 1;
+    }
+
+    // Read and print each line from fc-list
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        printf("%s", buffer);
+    }
+
+    // Close the pipe
+    pclose(fp);
+
+    return 0;
     
     printf("%d\n", PVG_FT_MSB(0));
     printf("%d\n", PVG_FT_MSB(10));
