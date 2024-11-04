@@ -51,7 +51,7 @@ int main(void)
     FILE *fp;
 
     // Open a pipe to run fc-list and read its output
-    fp = popen("fc-list", "r");
+    fp = popen("fc-list : family", "r");
     if (fp == NULL) {
         perror("popen failed");
         return 1;
