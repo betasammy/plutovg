@@ -19,6 +19,7 @@ jobs:
         run: |
           cmake .
           cmake --build .
+          .\\examples\\smiley.exe
           
   macos:
     runs-on: macos-latest
