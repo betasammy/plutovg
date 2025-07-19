@@ -1,4 +1,5 @@
 #include <plutovg.h>
+#include <stdio.h>
 
 int main(void)
 {
@@ -17,6 +18,9 @@ int main(void)
 
     plutovg_surface_t* surface = plutovg_surface_create(width, height);
     plutovg_canvas_t* canvas = plutovg_canvas_create(surface);
+
+    plutovg_font_face_cache_t* cache = plutovg_font_face_cache_create();
+    printf("%d\n", plutovg_font_face_cache_load_sys(cache));
 
     plutovg_canvas_save(canvas);
     plutovg_canvas_arc(canvas, center_x, center_y, face_radius, 0, PLUTOVG_TWO_PI, 0);
