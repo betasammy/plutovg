@@ -750,6 +750,7 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
     long length;
     uint8_t* data = plutovg_mmap(filename, &length);
     if(data == NULL) {
+        printf("Unable to open file: %s", filename);
         return 0;
     }
 
@@ -880,6 +881,7 @@ int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const cha
 {
     DIR* dir = opendir(dirname);
     if(dir == NULL) {
+        printf("Unable to open dir: %s", dirname);
         return 0;
     }
 
