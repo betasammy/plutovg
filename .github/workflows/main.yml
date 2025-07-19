@@ -55,4 +55,4 @@ jobs:
         run: |
           cmake .
           cmake --build .
-          .\\examples\\smiley.exe
+          .\examples\Debug\smiley.exe
