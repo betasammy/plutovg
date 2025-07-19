@@ -19,6 +19,7 @@ jobs:
         run: |
           cmake .
           cmake --build .
+          ./examples/smiley
           
   macos:
     runs-on: macos-latest
@@ -37,6 +38,7 @@ jobs:
         run: |
           cmake .
           cmake --build .
+          ./examples/smiley
           
   windows:
     runs-on: windows-latest
