@@ -747,6 +747,7 @@ static void plutovg_unmap(void* data, long length)
 
 int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const char* filename)
 {
+    printf("Loading file: %s\n", filename);
     long length;
     uint8_t* data = plutovg_mmap(filename, &length);
     if(data == NULL) {
@@ -852,6 +853,7 @@ int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const cha
     WIN32_FIND_DATAA find_data;
     HANDLE handle = FindFirstFileA(search_path, &find_data);
     if(handle == INVALID_HANDLE_VALUE) {
+        printf("Unable to open dir: %s\n", dirname);
         return 0;
     }
 
@@ -880,8 +882,9 @@ int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const cha
 int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const char* dirname)
 {
     DIR* dir = opendir(dirname);
+    printf("Loading dir: %s\n", dirname);
     if(dir == NULL) {
-        printf("Unable to open dir: %s", dirname);
+        printf("Unable to open dir: %s\n", dirname);
         return 0;
     }
 
