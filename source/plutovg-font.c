@@ -785,17 +785,39 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
 
         if(family_length == 0)
             continue;
-        size_t name_length = family_length / 2 + 1;
         size_t filename_length = strlen(filename) + 1;
+        size_t max_family_length = 3 * (family_length / 2) + 1;
 
-        plutovg_font_face_entry_t* entry = malloc(name_length + filename_length + sizeof(plutovg_font_face_entry_t));
+        plutovg_font_face_entry_t* entry = malloc(max_family_length + filename_length + sizeof(plutovg_font_face_entry_t));
         entry->family = (char*)(entry + 1);
-        entry->filename = entry->family + name_length;
+        entry->filename = entry->family + max_family_length;
         memcpy(entry->filename, filename, filename_length);
 
         int family_index = 0;
         while(family_length) {
-            entry->family[family_index++] = family_name[0] * 256 + family_name[1];
+            stbtt_uint16 ch = family_name[0] * 256 + family_name[1];
+            if(ch < 0x80) {
+                entry->family[family_index++] = ch;
+            } else if(ch < 0x800) {
+                entry->family[family_index++] = (0xc0 + (ch >> 6));
+                entry->family[family_index++] = (0x80 + (ch & 0x3f));
+            } else if(ch >= 0xd800 && ch < 0xdc00) {
+                stbtt_uint16 ch2 = family_name[2] * 256 + family_name[3];
+                stbtt_uint32 c = ((ch - 0xd800) << 10) + (ch2 - 0xdc00) + 0x10000;
+
+                entry->family[family_index++] = (0xf0 + (c >> 18));
+                entry->family[family_index++] = (0x80 + ((c >> 12) & 0x3f));
+                entry->family[family_index++] = (0x80 + ((c >> 6) & 0x3f));
+                entry->family[family_index++] = (0x80 + ((c) & 0x3f));
+
+                family_name += 2;
+                family_length -= 2;
+            } else {
+                entry->family[family_index++] = (0xe0 + (ch >> 12));
+                entry->family[family_index++] = (0x80 + ((ch >> 6) & 0x3f));
+                entry->family[family_index++] = (0x80 + ((ch) & 0x3f));
+            }
+
             family_name += 2;
             family_length -= 2;
         }
