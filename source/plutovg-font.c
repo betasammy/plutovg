@@ -802,8 +802,6 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
 
         entry->family[family_index] = 0;
 
-        printf("Loading file: %s: %s\n", entry->filename, entry->family);
-
         entry->face = NULL;
         entry->bold = false;
         entry->italic = false;
@@ -816,6 +814,8 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
         if(style & 0x2) {
             entry->italic = true;
         }
+        
+        printf("Loading file: %s: %s %d %d\n", entry->filename, entry->family, entry->bold, entry->italic);
 
         plutovg_font_face_cache_add_entry(cache, entry);
         num_faces++;
