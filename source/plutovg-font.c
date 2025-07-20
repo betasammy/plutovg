@@ -758,10 +758,10 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
 
     int num_fonts = stbtt_GetNumberOfFonts(data);
 
-    printf("stbtt_GetNumberOfFonts: %d: %s\n", num_fonts, filename);
     for(int index = 0; index < num_fonts; ++index) {
         int offset = stbtt_GetFontOffsetForIndex(data, index);
         if(offset == -1 || !stbtt__isfont(data + offset)) {
+            printf("stbtt_GetFontOffsetForIndex: %d: %s\n", offset, filename);
             continue;
         }
 
@@ -851,7 +851,6 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
 
 static bool plutovg_font_face_supports_file(const char* filename)
 {
-    printf("%s\n", filename);
     const char* extension = strrchr(filename, '.');
     if(extension) {
         char ext[4];
@@ -908,7 +907,6 @@ int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const cha
 int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const char* dirname)
 {
     DIR* dir = opendir(dirname);
-    printf("Loading dir: %s\n", dirname);
     if(dir == NULL) {
         printf("Unable to open dir: %s\n", dirname);
         return 0;
