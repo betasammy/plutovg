@@ -761,7 +761,6 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
     for(int index = 0; index < num_fonts; ++index) {
         int offset = stbtt_GetFontOffsetForIndex(data, index);
         if(offset == -1 || !stbtt__isfont(data + offset)) {
-            printf("stbtt_GetFontOffsetForIndex: %d: %s\n", offset, filename);
             continue;
         }
 
@@ -785,8 +784,11 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
             }
         }
 
-        if(family_length == 0)
+        if(family_length == 0) {
+            printf("Font family not found: %s\n", filename);
             continue;
+        }
+
         size_t filename_length = strlen(filename) + 1;
         size_t max_family_length = 3 * (family_length / 2) + 1;
 
