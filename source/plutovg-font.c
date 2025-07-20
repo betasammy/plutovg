@@ -767,7 +767,9 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
         stbtt_uint32 nm = stbtt__find_table(data, offset, "name");
         stbtt_int32 nm_count = ttUSHORT(data + nm + 2);
 
-        const uint8_t* family_name = NULL;
+        const uint8_t* unicode_family_name = NULL;
+        const uint8_t* roman_family_name = NULL;
+
         size_t family_length = 0;
         for(stbtt_int32 i = 0; i < nm_count; ++i) {
             stbtt_uint32 loc = nm + 6 + 12 * i;
@@ -775,24 +777,27 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
                 continue;
             }
 
+            family_length = ttUSHORT(data + loc + 8);
+
             stbtt_int32 platform = ttUSHORT(data + loc + 0);
             stbtt_int32 encoding = ttUSHORT(data + loc + 2);
+
+            const uint8_t* family_name = data + nm + ttUSHORT(data + nm + 4) + ttUSHORT(data + loc + 10);
+            if(platform == 1 && encoding == 0) {
+                roman_family_name = family_name;
+                continue;
+            }
+
             if(platform == 0 || (platform == 3 && encoding == 1) || (platform == 3 && encoding == 10)) {
-                family_name = data + nm + ttUSHORT(data + nm + 4) + ttUSHORT(data + loc + 10);
-                family_length = ttUSHORT(data + loc + 8);
+                unicode_family_name = family_name;
                 break;
-            } else {
-                printf("Unicode not found: %s\n: platform: %d encoding: %d", filename, platform, encoding);
             }
         }
 
-        if(family_length == 0) {
-            printf("Font family not found: %s\n", filename);
+        if(unicode_family_name == NULL && roman_family_name == NULL)
             continue;
-        }
-
         size_t filename_length = strlen(filename) + 1;
-        size_t max_family_length = 3 * (family_length / 2) + 1;
+        size_t max_family_length = (unicode_family_name ? 3 * (family_length / 2) : family_length) + 1;
 
         plutovg_font_face_entry_t* entry = malloc(max_family_length + filename_length + sizeof(plutovg_font_face_entry_t));
         entry->family = (char*)(entry + 1);
@@ -800,35 +805,47 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
         memcpy(entry->filename, filename, filename_length);
 
         int family_index = 0;
-        while(family_length) {
-            stbtt_uint16 ch = family_name[0] * 256 + family_name[1];
-            if(ch < 0x80) {
-                entry->family[family_index++] = ch;
-            } else if(ch < 0x800) {
-                entry->family[family_index++] = (0xc0 + (ch >> 6));
-                entry->family[family_index++] = (0x80 + (ch & 0x3f));
-            } else if(ch >= 0xd800 && ch < 0xdc00) {
-                stbtt_uint16 ch2 = family_name[2] * 256 + family_name[3];
-                stbtt_uint32 c = ((ch - 0xd800) << 10) + (ch2 - 0xdc00) + 0x10000;
+        if(unicode_family_name) {
+            const uint8_t* family_name = unicode_family_name;
+            while(family_length) {
+                stbtt_uint16 ch = family_name[0] * 256 + family_name[1];
+                if(ch < 0x80) {
+                    entry->family[family_index++] = ch;
+                } else if(ch < 0x800) {
+                    entry->family[family_index++] = (0xc0 + (ch >> 6));
+                    entry->family[family_index++] = (0x80 + (ch & 0x3f));
+                } else if(ch >= 0xd800 && ch < 0xdc00) {
+                    stbtt_uint16 ch2 = family_name[2] * 256 + family_name[3];
+                    stbtt_uint32 c = ((ch - 0xd800) << 10) + (ch2 - 0xdc00) + 0x10000;
 
-                entry->family[family_index++] = (0xf0 + (c >> 18));
-                entry->family[family_index++] = (0x80 + ((c >> 12) & 0x3f));
-                entry->family[family_index++] = (0x80 + ((c >> 6) & 0x3f));
-                entry->family[family_index++] = (0x80 + ((c) & 0x3f));
+                    entry->family[family_index++] = (0xf0 + (c >> 18));
+                    entry->family[family_index++] = (0x80 + ((c >> 12) & 0x3f));
+                    entry->family[family_index++] = (0x80 + ((c >> 6) & 0x3f));
+                    entry->family[family_index++] = (0x80 + ((c) & 0x3f));
+
+                    family_name += 2;
+                    family_length -= 2;
+                } else {
+                    entry->family[family_index++] = (0xe0 + (ch >> 12));
+                    entry->family[family_index++] = (0x80 + ((ch >> 6) & 0x3f));
+                    entry->family[family_index++] = (0x80 + ((ch) & 0x3f));
+                }
 
                 family_name += 2;
                 family_length -= 2;
-            } else {
-                entry->family[family_index++] = (0xe0 + (ch >> 12));
-                entry->family[family_index++] = (0x80 + ((ch >> 6) & 0x3f));
-                entry->family[family_index++] = (0x80 + ((ch) & 0x3f));
             }
 
-            family_name += 2;
-            family_length -= 2;
-        }
+            entry->family[family_index] = 0;
+        } else {
+            const uint8_t* family_name = roman_family_name;
+            while(family_length) {
+                entry->family[family_index++] = family_name[0];
+                family_name += 1;
+                family_length -= 1;
+            }
 
-        entry->family[family_index] = 0;
+            entry->family[family_index] = 0;
+        }
 
         entry->face = NULL;
         entry->bold = false;
