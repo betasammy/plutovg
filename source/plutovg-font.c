@@ -830,13 +830,13 @@ static bool plutovg_font_face_supports_file(const char* filename)
     if(extension) {
         char ext[4];
         size_t length = strlen(extension);
-        if(length <= sizeof(ext)) {
+        if(length == sizeof(ext)) {
             for(size_t i = 0; i < length; ++i)
                 ext[i] = tolower(extension[i]);
-            return strcmp(ext, ".ttf") == 0
-                || strcmp(ext, ".otf") == 0
-                || strcmp(ext, ".ttc") == 0
-                || strcmp(ext, ".otc") == 0;
+            return strncmp(ext, ".ttf", 4) == 0
+                || strncmp(ext, ".otf", 4) == 0
+                || strncmp(ext, ".ttc", 4) == 0
+                || strncmp(ext, ".otc", 4) == 0;
         }
     }
 
@@ -868,9 +868,7 @@ int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const cha
 
         if(find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
             num_faces += plutovg_font_face_cache_load_dir(cache, path);
-            printf("Loading dir: %s\n", path);
         } else if(plutovg_font_face_supports_file(path)) {
-            printf("Loading file: %s\n", path);
             num_faces += plutovg_font_face_cache_load_file(cache, path);
         }
     } while(FindNextFileA(handle, &find_data));
