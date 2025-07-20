@@ -866,6 +866,8 @@ int plutovg_font_face_cache_load_dir(plutovg_font_face_cache_t* cache, const cha
         char path[MAX_PATH * 2];
         snprintf(path, sizeof(path), "%s\\%s", dirname, name);
 
+        printf("Loading %s\n", path);
+
         if(find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
             num_faces += plutovg_font_face_cache_load_dir(cache, path);
         } else if(plutovg_font_face_supports_file(path)) {
