@@ -52,7 +52,6 @@ jobs:
           
           meson setup build
           meson compile -C build
-          ls "C:/Windows/Fonts"
 
       - name: Build with cmake
         run: |
