@@ -747,7 +747,6 @@ static void plutovg_unmap(void* data, long length)
 
 int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const char* filename)
 {
-    printf("Loading file: %s\n", filename);
     long length;
     uint8_t* data = plutovg_mmap(filename, &length);
     if(data == NULL) {
@@ -802,6 +801,8 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
         }
 
         entry->family[family_index] = 0;
+
+        printf("Loading file: %s: %s\n", entry->filename, entry->family);
 
         entry->face = NULL;
         entry->bold = false;
