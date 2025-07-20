@@ -849,6 +849,7 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
 
 static bool plutovg_font_face_supports_file(const char* filename)
 {
+    printf("%s\n", filename);
     const char* extension = strrchr(filename, '.');
     if(extension) {
         char ext[4];
