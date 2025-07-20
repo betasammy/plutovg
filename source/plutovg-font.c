@@ -781,6 +781,8 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
                 family_name = data + nm + ttUSHORT(data + nm + 4) + ttUSHORT(data + loc + 10);
                 family_length = ttUSHORT(data + loc + 8);
                 break;
+            } else {
+                printf("Unicode not found: %s\n: platform: %d encoding: %d", filename, platform, encoding);
             }
         }
 
