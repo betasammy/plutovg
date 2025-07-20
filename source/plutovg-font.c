@@ -917,7 +917,7 @@ int plutovg_font_face_cache_load_sys(plutovg_font_face_cache_t* cache)
 {
     int num_faces = 0;
 #if defined(_WIN32)
-    num_faces += plutovg_font_face_cache_load_dir(cache, "C:\\Windows\\Fonts\\");
+    num_faces += plutovg_font_face_cache_load_dir(cache, "C:\\Windows\\Fonts");
 #elif defined(__APPLE__)
     num_faces += plutovg_font_face_cache_load_dir(cache, "/Library/Fonts");
     num_faces += plutovg_font_face_cache_load_dir(cache, "/System/Library/Fonts");
