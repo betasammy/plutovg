@@ -757,6 +757,8 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
     int num_faces = 0;
 
     int num_fonts = stbtt_GetNumberOfFonts(data);
+
+    printf("stbtt_GetNumberOfFonts: %s: %d\n", num_fonts, filename);
     for(int index = 0; index < num_fonts; ++index) {
         int offset = stbtt_GetFontOffsetForIndex(data, index);
         if(offset == -1 || !stbtt__isfont(data + offset)) {
