@@ -829,7 +829,7 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
 
         size_t family_index = 0;
         if(unicode_family_name) {
-            printf("%p\n", unicode_family_name);
+            printf("%p: ", unicode_family_name);
             const stbtt_uint8* family_name = unicode_family_name;
             while(family_length) {
                 stbtt_uint16 ch = family_name[0] * 256 + family_name[1];
@@ -896,7 +896,7 @@ int plutovg_font_face_cache_load_file(plutovg_font_face_cache_t* cache, const ch
                 0x00AF, 0x02D8, 0x02D9, 0x02DA, 0x00B8, 0x02DD, 0x02DB, 0x02C7,
             };
 
-            printf("%p\n", roman_family_name);
+            printf("%s: ", roman_family_name);
             const stbtt_uint8* family_name = roman_family_name;
             while(family_length) {
                 stbtt_uint16 ch = MAC_ROMAN_TABLE[family_name[0]];
