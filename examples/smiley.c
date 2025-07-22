@@ -20,7 +20,7 @@ int main(void)
     plutovg_canvas_t* canvas = plutovg_canvas_create(surface);
 
     plutovg_font_face_cache_t* cache = plutovg_font_face_cache_create();
-    printf("%d\n", plutovg_font_face_cache_load_sys(cache));
+    printf("%d\n", plutovg_font_face_cache_load_file(cache, "/System/Library/Fonts/Menlo.ttc"));
 
     plutovg_canvas_save(canvas);
     plutovg_canvas_arc(canvas, center_x, center_y, face_radius, 0, PLUTOVG_TWO_PI, 0);
